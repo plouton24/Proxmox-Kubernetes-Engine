@@ -6,9 +6,13 @@
 - Create Windows Templates and Vars: 
   - kubeadm, boostrap, and md class
   - custom ntp
+  - add variable for windows image current worker only allows 1 system.
+  - add windows kube-proxy and calico artifacts: 
+    - https://github.com/kubernetes-sigs/sig-windows-tools/tree/master
 - Create Imagebuild Artifacts
   - json, xml
   - ansible role to install csi_proxy
+    -https://github.com/kubernetes-sigs/sig-windows-tools/tree/master/hostprocess could use this csi_proxy hostprocess
 
 ### Test:
 - using  cluster label: cluster.x-k8s.io/proxmox-cluster-cni: calico/cilium

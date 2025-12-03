@@ -1,0 +1,68 @@
+- op: add
+  path: /spec/patches/-
+  value:
+    name: WindowsWorkerNodeSetup
+    description: "Configure Windows Worker Node Initialisation"
+    definitions:
+      - selector:
+          apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+          kind: KubeadmConfigTemplate
+          matchResources:
+            machineDeploymentClass:
+              names:
+              - proxmox-worker-win
+        jsonPatches:
+          - op: add 
+            path: /spec/template/spec/files
+            valueFrom: 
+              template |-
+                - content:
+                  #Stop auto updates, and Disable Firewall. As all changes should be made via imagebuilder
+                  Set-Service -Name "wuauserv" -StartupType Disabled -Status Stopped
+                  #Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False <- test if needed to create fw rule for ssh 
+                  path: C:\k\disable_win_updates.ps1       
+          - op: add 
+            path: /spec/template/spec/joinConfiguration
+            valueFrom: 
+              template | 
+                discovery: {}
+                nodeRegistration:
+                  criSocket: npipe:////./pipe/containerd-containerd
+                  imagePullPolicy: IfNotPresent
+                  kubeletExtraArgs:
+                    cloud-provider: external
+                    windows-priorityclass: ABOVE_NORMAL_PRIORITY_CLASS
+                  name: '{{ ds.meta_data.hostname }}'
+          - op: add 
+            path: /spec/template/spec/postKubeadmCommands
+            valueFrom: 
+              template |
+                - nssm set kubelet start SERVICE_AUTO_START
+                - powershell C:\k\disable_win_updates.ps1 -ExecutionPolicy Bypass
+          ###Test if Defender exeption is necessary for Calico binaries 'Add-MpPreference -ExclusionProcess <Install location>\calico.exe'. 
+          - op: add
+            path: /spec/template/spec/users
+            valueFrom:
+              template: |
+                - groups: Administrators
+                  name: capmox
+                    sshAuthorizedKeys: 
+                    - {{ .cloneSpec.sshAuthorizedKeys }}
+                  sudo: ALL=(ALL) NOPASSWD:ALL
+      - selector:
+          apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
+          kind: ProxmoxMachineTemplate
+          matchResources:
+            controlPlane: false
+            machineDeploymentClass:
+              names:
+              - proxmox-worker-win
+        jsonPatches:
+          - op: replace
+            path: /spec/template/spec/sourceNode
+            valueFrom:
+              variable: cloneSpec.vmTemplate.sourceNode
+          - op: replace
+            path: /spec/template/spec/templateID
+            valueFrom:
+              variable: cloneSpec.vmTemplate.templateID

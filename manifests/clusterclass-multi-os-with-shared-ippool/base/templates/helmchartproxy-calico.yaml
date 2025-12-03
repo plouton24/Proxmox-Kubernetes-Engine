@@ -10,6 +10,21 @@ spec:
   repoURL: https://docs.tigera.io/calico/charts
   chartName: tigera-operator
   namespace: kube-system
+  valuesTemplate: |
+    installation:
+    cni:
+      type: Calico
+      ipam:
+        type: Calico
+    calicoNetwork:
+      bgp: Disabled
+      windowsDataplane: HNS
+      mtu: 1350
+      ipPools:{{range $i, $cidr := .Cluster.spec.clusterNetwork.pods.cidrBlocks }}
+      - cidr: {{ $cidr }}
+        encapsulation: None
+        natOutgoing: Enabled
+        nodeSelector: all(){{end}}
 
-#Verify if Windows need custom values per: 
+#Copied from, but still need to research windows specific settings: 
 #https://github.com/kubernetes-sigs/cluster-api-addon-provider-helm/blob/main/config/samples/calico-cni.yaml

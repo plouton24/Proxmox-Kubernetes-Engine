@@ -61,5 +61,34 @@ spec:
               timeout: 300s
         namingStrategy:
            template: "{{ .cluster.name }}-worker-{{ .random }}"
+      - class: proxmox-worker-windows
+        template:
+          bootstrap:
+            ref:
+              apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+              kind: KubeadmConfigTemplate
+              name: proxmox-kubernetes-engine-workertemplate
+          infrastructure:
+            ref:
+              apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
+              kind: ProxmoxMachineTemplate
+              name: proxmox-clusterclass-v0.1.0-workertemplate
+          metadata:
+            labels:
+              node-role.kubernetes.io/node: ""
+              topology.kubernetes.io/region: Datacenter
+        machineHealthCheck:
+          maxUnhealthy: 90%
+          nodeStartupTimeout: 20m0s
+          unhealthyConditions:
+          - status: Unknown
+            timeout: 5m0s
+            type: Ready
+          - status: "False"
+            timeout: 15m0s
+            type: Ready
+        namingStrategy:
+           template: "{{ .cluster.name }}-win-worker-{{ .random }}"
+
   variables: []
   patches: []
