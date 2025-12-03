@@ -1,0 +1,15 @@
+apiVersion: addons.cluster.x-k8s.io/v1alpha1
+kind: HelmChartProxy
+metadata:
+  name: calico-cni
+spec:
+  clusterSelector:
+    matchLabels:
+      caprox.eu/cni: calico
+  releaseName: calico
+  repoURL: https://docs.tigera.io/calico/charts
+  chartName: tigera-operator
+  namespace: kube-system
+
+#Verify if Windows need custom values per: 
+#https://github.com/kubernetes-sigs/cluster-api-addon-provider-helm/blob/main/config/samples/calico-cni.yaml

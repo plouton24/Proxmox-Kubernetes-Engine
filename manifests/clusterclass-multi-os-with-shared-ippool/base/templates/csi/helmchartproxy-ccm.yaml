@@ -1,0 +1,40 @@
+apiVersion: addons.cluster.x-k8s.io/v1alpha1
+kind: HelmChartProxy
+metadata:
+  name: ccm
+spec:
+  clusterSelector:
+    matchLabels:
+      caprox.eu/ccm: "true"
+  releaseName: ccm
+  version: 0.2.22
+  repoURL: oci://ghcr.io/sergelogvinov/charts
+  namespace: kube-system
+  chartName: proxmox-cloud-controller-manager
+  valuesTemplate: |
+    existingConfigSecret: ccm-config
+    extraVolumes:
+      - name: credentials-proxmox
+        secret:
+          secretName: proxmox-credentials
+    extraVolumeMounts:
+      - name: credentials-proxmox
+        readOnly: true
+        mountPath: "/var/run/secrets/proxmox"
+
+    enabledControllers:
+      - cloud-node
+
+    # Deploy CCM only on control-plane nodes
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+          - matchExpressions:
+            - key: node-role.kubernetes.io/control-plane
+              operator: Exists
+    tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        effect: NoSchedule
+      - key: node.cloudprovider.kubernetes.io/uninitialized
+        value: "true"
