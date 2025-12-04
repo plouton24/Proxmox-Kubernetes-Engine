@@ -15,7 +15,7 @@
           - op: add 
             path: /spec/template/spec/files
             valueFrom: 
-              template |-
+              template: |-
                 - content:
                   #Stop auto updates, and Disable Firewall. As all changes should be made via imagebuilder
                   Set-Service -Name "wuauserv" -StartupType Disabled -Status Stopped
@@ -24,7 +24,7 @@
           - op: add 
             path: /spec/template/spec/joinConfiguration
             valueFrom: 
-              template | 
+              template: | 
                 discovery: {}
                 nodeRegistration:
                   criSocket: npipe:////./pipe/containerd-containerd
@@ -36,7 +36,7 @@
           - op: add 
             path: /spec/template/spec/postKubeadmCommands
             valueFrom: 
-              template |
+              template: |
                 - nssm set kubelet start SERVICE_AUTO_START
                 - powershell C:\k\disable_win_updates.ps1 -ExecutionPolicy Bypass
           ###Test if Defender exeption is necessary for Calico binaries 'Add-MpPreference -ExclusionProcess <Install location>\calico.exe'. 
