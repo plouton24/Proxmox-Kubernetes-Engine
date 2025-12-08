@@ -61,7 +61,7 @@ spec:
               timeout: 300s
         namingStrategy:
            template: "{{ .cluster.name }}-worker-{{ .random }}"
-      - class: proxmox-worker-windows
+      - class: proxmox-worker-win
         template:
           bootstrap:
             ref:
