@@ -47,7 +47,7 @@
               template: |
                 - groups: Administrators
                   name: capmox
-                    sshAuthorizedKeys: 
+                  sshAuthorizedKeys: 
                     - {{ .cloneSpec.sshAuthorizedKeys }}
                   sudo: ALL=(ALL) NOPASSWD:ALL
       - selector:
