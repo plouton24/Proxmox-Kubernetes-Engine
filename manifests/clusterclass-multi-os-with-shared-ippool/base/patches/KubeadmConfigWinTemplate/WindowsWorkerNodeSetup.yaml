@@ -47,8 +47,7 @@
               template: |
                 - groups: Administrators
                   name: capmox
-                  sshAuthorizedKeys: 
-                    - {{ .cloneSpec.sshAuthorizedKeys }}
+                  sshAuthorizedKeys: {{ .cloneSpec.sshAuthorizedKeys }}
                   sudo: ALL=(ALL) NOPASSWD:ALL
       - selector:
           apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
