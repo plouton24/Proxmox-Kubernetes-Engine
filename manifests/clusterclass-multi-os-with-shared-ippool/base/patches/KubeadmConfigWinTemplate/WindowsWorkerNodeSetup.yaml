@@ -33,7 +33,7 @@
                   kubeletExtraArgs:
                     cloud-provider: external
                     windows-priorityclass: ABOVE_NORMAL_PRIORITY_CLASS
-                  name: '{{ ds.meta_data.hostname }}'
+                  name: '{{ .machine.metadata.name }}'
           - op: add 
             path: /spec/template/spec/postKubeadmCommands
             valueFrom: 
