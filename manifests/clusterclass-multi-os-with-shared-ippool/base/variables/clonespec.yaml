@@ -23,14 +23,18 @@
             type: object
             required:
             - sourceNode
-            - templateID
+            - templateID-lin
+            - templateID-win
             properties:
               sourceNode:
                 type: string
                 example: pve1
-              templateID:
+              templateID-lin:
                 type: integer
                 example: 100
+              templateID-win:
+                type: integer
+                exmpple: 100
           machineSpec:
             type: object
             properties:
