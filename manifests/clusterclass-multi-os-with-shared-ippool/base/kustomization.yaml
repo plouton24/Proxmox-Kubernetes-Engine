@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: caprox-kubernetes-engine
 resources:
   - ns.yaml
-  - mutli-os-clusterclass.yaml
+  - multi-os-clusterclass.yaml
   - templates/helmchartproxy-cilium.yaml
   - templates/kubeadm-config-template.yaml
   - templates/kubeadm-control-plane-template.yaml
