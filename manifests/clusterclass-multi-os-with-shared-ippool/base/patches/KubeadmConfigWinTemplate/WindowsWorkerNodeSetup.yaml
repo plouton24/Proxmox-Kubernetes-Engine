@@ -18,9 +18,9 @@
               template: |
                 - path: C:\k\disable_win_updates.ps1
                   content: |
-                  #Stop auto updates, and Disable Firewall. As all changes should be made via imagebuilder
-                  Set-Service -Name "wuauserv" -StartupType Disabled -Status Stopped
-                  #Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False <- test if needed to create fw rule for ssh 
+                    #Stop auto updates, and Disable Firewall. As all changes should be made via imagebuilder
+                    Set-Service -Name "wuauserv" -StartupType Disabled -Status Stopped
+                    #Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False <- test if needed to create fw rule for ssh 
                          
           - op: add 
             path: /spec/template/spec/joinConfiguration
