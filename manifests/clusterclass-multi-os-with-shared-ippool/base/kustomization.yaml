@@ -40,7 +40,7 @@ patches:
   - path: patches/KubeadmConfigTemplate/WorkerNodeSetup.yaml
     target:
       kind: ClusterClass
-  - path: patches/KubeadmConfigTemplate/WindowsWorkerNodeSetup.yaml
+  - path: patches/KubeadmConfigWinTemplate/WindowsWorkerNodeSetup.yaml
     target:
       kind: ClusterClass
   - path: patches/KubeadmControlPlaneTemplate/ControlPlaneSetup.yaml
