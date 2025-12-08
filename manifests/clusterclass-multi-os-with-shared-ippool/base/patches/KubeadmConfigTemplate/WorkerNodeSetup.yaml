@@ -34,4 +34,4 @@
           - op: replace
             path: /spec/template/spec/templateID
             valueFrom:
-              variable: cloneSpec.vmTemplate.templateID
+              variable: cloneSpec.vmTemplate.templateID-lin
