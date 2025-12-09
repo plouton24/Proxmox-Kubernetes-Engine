@@ -5,7 +5,7 @@ metadata:
 spec:
   template:
     spec:
-      format: cloudinit
+      format: cloud-config
       joinConfiguration:
         nodeRegistration:
           kubeletExtraArgs:
