@@ -22,7 +22,7 @@
                     Set-Service -Name "wuauserv" -StartupType Disabled -Status Stopped
                     #Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False <- test if needed to create fw rule for ssh 
                          
-          - op: add 
+          - op: patch 
             path: /spec/template/spec/joinConfiguration
             valueFrom: 
               template: | 
