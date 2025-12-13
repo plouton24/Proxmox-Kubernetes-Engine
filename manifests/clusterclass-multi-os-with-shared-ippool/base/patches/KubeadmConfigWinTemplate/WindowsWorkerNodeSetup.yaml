@@ -31,7 +31,6 @@
                   criSocket: npipe:////./pipe/containerd-containerd
                   imagePullPolicy: IfNotPresent
                   kubeletExtraArgs:
-                    cloud-provider: external
                     windows-priorityclass: ABOVE_NORMAL_PRIORITY_CLASS
                     register-with-taints: kubernetes.io/os=windows:NoSchedule
           - op: add 
