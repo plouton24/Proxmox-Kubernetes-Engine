@@ -24,17 +24,16 @@
                          
           - op: add 
             path: /spec/template/spec/joinConfiguration
-            valueFrom: 
-              template: | 
-                discovery: {}
-                nodeRegistration:
-                  criSocket: npipe:////./pipe/containerd-containerd
-                  imagePullPolicy: IfNotPresent
-                  kubeletExtraArgs:
-                    proxmox://{{ ds.meta_data.instance_id }}
-                    cloud-provider: external
-                    windows-priorityclass: ABOVE_NORMAL_PRIORITY_CLASS
-                    register-with-taints: kubernetes.io/os=windows:NoSchedule
+            value: 
+              discovery: {}
+              nodeRegistration:
+                criSocket: npipe:////./pipe/containerd-containerd
+                imagePullPolicy: IfNotPresent
+                kubeletExtraArgs:
+                  proxmox://{{ ds.meta_data.instance_id }}
+                  cloud-provider: external
+                  windows-priorityclass: ABOVE_NORMAL_PRIORITY_CLASS
+                  register-with-taints: kubernetes.io/os=windows:NoSchedule
           - op: add 
             path: /spec/template/spec/postKubeadmCommands
             valueFrom: 
