@@ -66,3 +66,8 @@
             path: /spec/template/spec/templateID
             valueFrom:
               variable: cloneSpec.vmTemplate.templateID-win
+          - op: add
+            path: /spec/template/spec/checks
+            value:
+              skipQemuGuestAgent: false
+              skipCloudInitStatus: true
