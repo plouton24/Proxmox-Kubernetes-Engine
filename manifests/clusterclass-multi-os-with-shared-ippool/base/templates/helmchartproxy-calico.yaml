@@ -9,6 +9,7 @@ spec:
   releaseName: tigera-operator
   repoURL: https://docs.tigera.io/calico/charts
   chartName: tigera-operator
+  namespace: tigera-operator
   version: v3.31.4
   options:
     waitForJobs: true
