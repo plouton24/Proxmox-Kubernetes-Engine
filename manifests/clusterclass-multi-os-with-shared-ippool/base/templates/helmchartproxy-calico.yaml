@@ -1,4 +1,4 @@
-apiVersion: addons.cluster.x-k8s.io/v1beta1
+apiVersion: addons.cluster.x-k8s.io/v1alpha1
 kind: HelmChartProxy
 metadata:
   name: calico-cni
@@ -6,9 +6,9 @@ spec:
   clusterSelector:
     matchLabels:
       caprox.eu/cni: calico
+  releaseName: tigera-operator
   repoURL: https://docs.tigera.io/calico/charts
   chartName: tigera-operator
-  releaseName: tigera-operator
   version: v3.31.4
   options:
     waitForJobs: true
@@ -25,29 +25,25 @@ spec:
         ipam:
           type: Calico
       serviceCIDRs:
-{{- range $cidr := .Cluster.spec.clusterNetwork.services.cidrBlocks }}
+    {{- range $cidr := .Cluster.spec.clusterNetwork.services.cidrBlocks }}
         - {{ $cidr }}
-{{- end }}
+    {{- end }}
       calicoNetwork:
         linuxDataplane: Iptables
         windowsDataplane: HNS
         bgp: Disabled
         hostPorts: Enabled
         ipPools:
-{{- range $cidr := .Cluster.spec.clusterNetwork.pods.cidrBlocks }}
+    {{- range $cidr := .Cluster.spec.clusterNetwork.pods.cidrBlocks }}
           - cidr: {{ $cidr }}
             blockSize: 26
             encapsulation: VXLAN
             natOutgoing: Enabled
             nodeSelector: all()
-{{- end }}
 
+    {{- end }}
     apiServer:
       enabled: true
-
     kubernetesServiceEndpoint:
       host: "{{ .Cluster.spec.controlPlaneEndpoint.host }}"
       port: "{{ .Cluster.spec.controlPlaneEndpoint.port }}"
-
-#Copied from, but still need to research windows specific settings: 
-#https://github.com/kubernetes-sigs/cluster-api-addon-provider-helm/blob/main/config/samples/calico-cni.yaml
