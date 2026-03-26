@@ -34,6 +34,7 @@
                   cloud-provider: external
                   windows-priorityclass: ABOVE_NORMAL_PRIORITY_CLASS
                   register-with-taints: kubernetes.io/os=windows:NoSchedule
+                name: '{{ ds.meta_data["local_hostname"] }}'
           - op: add 
             path: /spec/template/spec/postKubeadmCommands
             valueFrom: 
