@@ -8,6 +8,7 @@ metadata:
     caprox.eu/ccm: "true"
     caprox.eu/inject-proxmox-credentials: "true"
     # optional
+    # caprox.eu/ccm-mode: daemonset
     caprox.eu/csi: "true"
     caprox.eu/service-lb: "true"
   name: manuels-k8s-cluster

@@ -13,6 +13,9 @@ spec:
   chartName: proxmox-cloud-controller-manager
   valuesTemplate: |
     existingConfigSecret: ccm-config
+    {{- if eq (index .Cluster.metadata.labels "caprox.eu/ccm-mode") "daemonset" }}
+    useDaemonSet: true
+    {{- end }}
     extraVolumes:
       - name: credentials-proxmox
         secret:
@@ -21,6 +24,13 @@ spec:
       - name: credentials-proxmox
         readOnly: true
         mountPath: "/var/run/secrets/proxmox"
+    extraEnvs:
+      # Use Controlplane Endpoint for in-cluster communication with API Server
+      # This is required for CCM to work when the API Server is not accessible via the default service IP (e.g. when using kube-vip with host networking)
+      - name: KUBERNETES_SERVICE_HOST
+        value: "{{ .Cluster.spec.controlPlaneEndpoint.host }}"
+      - name: KUBERNETES_SERVICE_PORT
+        value: "{{ .Cluster.spec.controlPlaneEndpoint.port }}"
 
     enabledControllers:
       - cloud-node
