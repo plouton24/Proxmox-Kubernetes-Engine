@@ -39,6 +39,8 @@ spec:
           proxmox:
             enabled: true
             version: v0.7.5
+            configSecret:
+              name: capmox-provider-config
         ipam:
           in-cluster:
             enabled: true

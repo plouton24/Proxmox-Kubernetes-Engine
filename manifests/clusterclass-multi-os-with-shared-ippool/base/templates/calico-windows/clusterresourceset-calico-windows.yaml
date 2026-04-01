@@ -1,0 +1,12 @@
+apiVersion: addons.cluster.x-k8s.io/v1beta1
+kind: ClusterResourceSet
+metadata:
+  name: calico-windows
+spec:
+  strategy: Reconcile
+  clusterSelector:
+    matchLabels:
+      caprox.eu/cni: calico
+  resources:
+    - name: calico-windows
+      kind: ConfigMap

@@ -365,15 +365,15 @@ stringData:
   url: "https://192.168.2.142:8006/"
 kind: Secret
 metadata:
-  name: capmox-manager-credentials
+  name: capmox-provider-config
   namespace: proxmox-infrastructure-system
 ``` 
 
-Create the secret.
+Create the provider config secret.
 ```bash
 sudo k3s kubectl apply -f secret-capmox.yaml
 ```
-Because we are overwriting the default secret we need to trigger a restart of the proxmox-provider to read the new secret.
+The operator uses this secret as the source of truth and renders the controller's `capmox-manager-credentials` secret from it. Restart the controller if you want it to pick up the refreshed credentials immediately.
 ```bash
 sudo k3s kubectl rollout restart deploy capmox-controller-manager -n proxmox-infrastructure-system
 ```
@@ -490,6 +490,8 @@ metadata:
     caprox.eu/ccm: "true"
     caprox.eu/inject-proxmox-credentials: "true"
     # optional
+    # caprox.eu/ccm-mode: daemonset  # force hostNetwork/DaemonSet
+    # caprox.eu/ccm-mode: deployment # force Deployment
     caprox.eu/csi: "true"
     caprox.eu/service-lb: "true"
   name: manuels-k8s-cluster

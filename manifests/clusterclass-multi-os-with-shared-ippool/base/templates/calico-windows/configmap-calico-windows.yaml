@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: calico-windows
+data:
+  ipamconfig.yaml: |
+    apiVersion: projectcalico.org/v3
+    kind: IPAMConfiguration
+    metadata:
+      name: default
+    spec:
+      strictAffinity: true

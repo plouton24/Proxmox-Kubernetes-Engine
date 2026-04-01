@@ -12,8 +12,10 @@ spec:
   namespace: kube-system
   chartName: proxmox-cloud-controller-manager
   valuesTemplate: |
+    {{- $cni := index .Cluster.metadata.labels "caprox.eu/cni" }}
+    {{- $ccmMode := index .Cluster.metadata.labels "caprox.eu/ccm-mode" }}
     existingConfigSecret: ccm-config
-    {{- if eq (index .Cluster.metadata.labels "caprox.eu/ccm-mode") "daemonset" }}
+    {{- if or (eq $ccmMode "daemonset") (and (ne $ccmMode "deployment") (eq $cni "calico")) }}
     useDaemonSet: true
     {{- end }}
     extraVolumes:

@@ -5,6 +5,7 @@ resources:
   - ns.yaml
   - multi-os-clusterclass.yaml
   - templates/helmchartproxy-calico.yaml
+  - templates/calico-windows
   - templates/kubeadm-config-template.yaml
   - templates/kubeadm-control-plane-template.yaml
   - templates/proxmox-cluster-template.yaml
